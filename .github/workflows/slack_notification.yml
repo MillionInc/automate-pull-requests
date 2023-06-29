@@ -8,10 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Notify Slack
         if: github.event.issue.pull_request
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' \
-            --data '{"text": "A comment was ${{ github.event.issue_comment.action }} on Pull Request #${{ github.event.issue.number }} by ${{ github.event.comment.user.login }}. The message is: ```${{ github.event.issue_comment.comment }}```"}' $SLACK_WEBHOOK_URL
+            --data '{"text": "A comment was ${{ github.event.issue_comment.action }} on Pull Request #${{ github.event.issue.number }} by ${{ github.event.comment.user.login }}. The message is: ```\n${{ github.event.issue_comment.comment }}\n```"}' $SLACK_WEBHOOK_URL
