@@ -1,0 +1,29 @@
+name: cancel_in_queue
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review:
+    types: [submitted]
+
+jobs:
+  add_to_queue:
+    env: # Or as an environment variable
+      SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+    runs-on: ubuntu-latest
+    name: Cancel PR in queue
+    steps:
+      - name: Cancel PR in queue
+        uses: lwhiteley/slack-merge-queue@{version}
+        id: cancel_pr
+        with:
+          mode: 'CANCEL'
+          channel: 'merge-queue'
+          cancel_trigger: '/cancel-merge'
+          cancel_ready_message: 'Previous PR merge was temporarily cancelled. This PR is now up for merge!'
+          delete_on_cancel: 'true' # uncomment if you want to delete cancelled prs from queue
+      # Use the output from the `cancel_pr` step
+      - name: Get the output
+        run: echo "status => ${{ steps.cancel_pr.outputs.status }}"
+      - name: Get the next PR number
+        run: echo "next pr => ${{ steps.cancel_pr.outputs.next_pr }}"

@@ -1,4 +1,4 @@
-defmodule App do
+defmodule AutomatePullRequests do
   behaviour(Application)
 
   def start(_type, _args) do
