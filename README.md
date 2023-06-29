@@ -25,3 +25,13 @@ The next steps are:
 - Elixir 1.11.2 or later
 - Erlang 23 or later
 - Docker (optional)
+
+### Running
+
+#### Locally
+
+1. Clone this repository
+2. Install dependencies with `mix deps.get`
+3. Run `iex -S mix`
+4. Run `AutomatePullRequests.start_link` to start the application
+
