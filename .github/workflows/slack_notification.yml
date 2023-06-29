@@ -19,4 +19,4 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
           curl -X POST -H 'Content-type: application/json' \
-            --data '{"text": "A comment was ${{ github.event.issue_comment.action }} on Pull Request #${{ github.event.issue.number }} by ${{ github.event.comment.user.login }}. The event content is: ```\n${{ github.event.issue }}\n```"}' $SLACK_WEBHOOK_URL
+            --data '{"text": "A comment was ${{ github.event.issue_comment.action }} on Pull Request #${{ github.event.issue.number }} by ${{ github.event.comment.user.login }}. The event content is: ```\n${{ JSON.stringify(github.event.issue) }}\n```"}' $SLACK_WEBHOOK_URL
