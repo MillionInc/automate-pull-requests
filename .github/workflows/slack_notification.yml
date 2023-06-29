@@ -1,0 +1,19 @@
+name: Slack Notification
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+
+jobs:
+  notify_slack:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Notify Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data '{"text": "Pull Request ${{ github.event.pull_request.number }} has been ${{ github.event_name }} by ${{ github.actor }}"}' $SLACK_WEBHOOK_URL
